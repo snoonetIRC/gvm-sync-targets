@@ -35,3 +35,5 @@ RUN chown -R gvm:gvm /gvm-sync-targets && \
     chmod 755 /usr/local/bin/entrypoint
 
 ENTRYPOINT [ "/usr/local/bin/entrypoint" ]
+
+CMD [ "gvm-sync-targets" ]
