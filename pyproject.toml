@@ -1,0 +1,101 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "gmp-sync-targets"
+dynamic = ["version"]
+description = ''
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+keywords = []
+authors = [
+  { name = "linuxdaemon", email = "linuxdaemon.irc@gmail.com" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+  "click",
+  "python-gvm",
+]
+
+[project.urls]
+Documentation = "https://github.com/linuxdaemon/gmp-sync-targets#readme"
+Issues = "https://github.com/linuxdaemon/gmp-sync-targets/issues"
+Source = "https://github.com/linuxdaemon/gmp-sync-targets"
+
+[project.scripts]
+gmp-sync-targets = "gmp_sync_targets.cli:gmp_sync_targets"
+
+[tool.hatch.version]
+path = "src/gmp_sync_targets/__about__.py"
+
+[tool.hatch.envs.types]
+extra-dependencies = [
+  "mypy>=1.0.0",
+]
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:src/gmp_sync_targets tests}"
+
+[tool.coverage.run]
+source_pkgs = ["gmp_sync_targets", "tests"]
+branch = true
+parallel = true
+omit = [
+  "src/gmp_sync_targets/__about__.py",
+]
+
+[tool.coverage.paths]
+gmp_sync_targets = ["src/gmp_sync_targets", "*/gmp-sync-targets/src/gmp_sync_targets"]
+tests = ["tests", "*/gmp-sync-targets/tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
+
+[tool.nitpick]
+style = [
+  "gh://TotallyNotRobots/nitpick/app-style.toml",]
+
+[tool.isort]
+line_length = 80
+profile = "black"
+float_to_top = true
+
+[tool.black]
+line-length = 80
+target-version = ["py38"]
+
+[tool.mypy]
+ignore_missing_imports = true
+show_error_codes = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+strict = true
+
+[tool.flynt]
+transform-concats = true
+transform-joins = true
+line-length = 120
+aggressive = true
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+tag_format = "v$version"
+version_scheme = "semver"
+version_provider = "scm"
+update_changelog_on_bump = true
+major_version_zero = true

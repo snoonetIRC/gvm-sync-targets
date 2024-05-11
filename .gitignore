@@ -1,0 +1,4 @@
+*.py[oc]
+.cache/
+.mypy_cache/
+__pycache__/
