@@ -5,7 +5,7 @@ import click
 from gvm.connections import UnixSocketConnection
 from gvm.protocols.gmp import Gmp
 
-from gvm_sync_targets.__about__ import __version__
+from gvm_sync_targets import __version__
 
 
 @click.group(
