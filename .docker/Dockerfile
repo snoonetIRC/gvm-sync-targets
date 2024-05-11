@@ -1,12 +1,17 @@
-FROM python:3.8-slim AS builder
+FROM python:3.8 AS builder
+
+RUN apt-get update && \
+    apt-get install --no-install-recommends --no-install-suggests -y \
+    pipx && \
+    apt-get remove --purge --auto-remove -y && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN pipx install hatch
 
 COPY . /source
 WORKDIR /source
 
-RUN rm -rf dist
-RUN hatch build -t wheel
+RUN rm -rf dist && /root/.local/bin/hatch build -t wheel
 
 FROM python:3.8-slim
 
