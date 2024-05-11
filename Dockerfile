@@ -1,7 +1,8 @@
 FROM python:3.8-slim-bookworm
 
 
-COPY src pyproject.toml /src/
+COPY ./src/ /src/src
+COPY pyproject.toml README.md /src/
 
 WORKDIR /src
 RUN pip install .
