@@ -1,7 +1,7 @@
-# gmp-sync-targets
+# gvm-sync-targets
 
-[![PyPI - Version](https://img.shields.io/pypi/v/gmp-sync-targets.svg)](https://pypi.org/project/gmp-sync-targets)
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/gmp-sync-targets.svg)](https://pypi.org/project/gmp-sync-targets)
+[![PyPI - Version](https://img.shields.io/pypi/v/gvm-sync-targets.svg)](https://pypi.org/project/gvm-sync-targets)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/gvm-sync-targets.svg)](https://pypi.org/project/gvm-sync-targets)
 
 -----
 
@@ -13,9 +13,9 @@
 ## Installation
 
 ```console
-pip install gmp-sync-targets
+pip install gvm-sync-targets
 ```
 
 ## License
 
-`gmp-sync-targets` is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.
+`gvm-sync-targets` is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.

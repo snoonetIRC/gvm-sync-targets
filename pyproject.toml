@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "gmp-sync-targets"
+name = "gvm-sync-targets"
 dynamic = ["version"]
 description = ''
 readme = "README.md"
@@ -30,34 +30,34 @@ dependencies = [
 ]
 
 [project.urls]
-Documentation = "https://github.com/linuxdaemon/gmp-sync-targets#readme"
-Issues = "https://github.com/linuxdaemon/gmp-sync-targets/issues"
-Source = "https://github.com/linuxdaemon/gmp-sync-targets"
+Documentation = "https://github.com/snoonetIRC/gvm-sync-targets#readme"
+Issues = "https://github.com/snoonetIRC/gvm-sync-targets/issues"
+Source = "https://github.com/snoonetIRC/gvm-sync-targets"
 
 [project.scripts]
-gmp-sync-targets = "gmp_sync_targets.cli:gmp_sync_targets"
+gvm-sync-targets = "gvm_sync_targets.cli:gvm_sync_targets"
 
 [tool.hatch.version]
-path = "src/gmp_sync_targets/__about__.py"
+path = "src/gvm_sync_targets/__about__.py"
 
 [tool.hatch.envs.types]
 extra-dependencies = [
   "mypy>=1.0.0",
 ]
 [tool.hatch.envs.types.scripts]
-check = "mypy --install-types --non-interactive {args:src/gmp_sync_targets tests}"
+check = "mypy --install-types --non-interactive {args:src/gvm_sync_targets tests}"
 
 [tool.coverage.run]
-source_pkgs = ["gmp_sync_targets", "tests"]
+source_pkgs = ["gvm_sync_targets", "tests"]
 branch = true
 parallel = true
 omit = [
-  "src/gmp_sync_targets/__about__.py",
+  "src/gvm_sync_targets/__about__.py",
 ]
 
 [tool.coverage.paths]
-gmp_sync_targets = ["src/gmp_sync_targets", "*/gmp-sync-targets/src/gmp_sync_targets"]
-tests = ["tests", "*/gmp-sync-targets/tests"]
+gvm_sync_targets = ["src/gvm_sync_targets", "*/gvm-sync-targets/src/gvm_sync_targets"]
+tests = ["tests", "*/gvm-sync-targets/tests"]
 
 [tool.coverage.report]
 exclude_lines = [
