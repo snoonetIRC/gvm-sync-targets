@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: 2024-present linuxdaemon <linuxdaemon.irc@gmail.com>
 #
 # SPDX-License-Identifier: MIT
+
 from click.testing import CliRunner
 
 import gvm_sync_targets

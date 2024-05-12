@@ -70,7 +70,7 @@ def gvm_sync_targets(
 
             # Ensure old target is unused
             old_target: Element = gmp.get_target(old_target_id)[0]
-            old_name = old_target.xpath("name/text()[1]")
+            old_name = cast(list[str], old_target.xpath("name/text()"))[0]
             if target_in_use(old_target):
                 msg = "target is still in use"
                 raise ValueError(msg)
