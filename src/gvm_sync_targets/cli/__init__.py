@@ -60,7 +60,7 @@ def gvm_sync_targets(username: str, password: str, hosts_file: TextIO) -> None:
                 )
 
             # Ensure old target is unused
-            old_target: "ElementBase" = gmp.get_target(old_target_id)
+            old_target: "ElementBase" = gmp.get_target(old_target_id)[0]
             old_name = old_target.xpath("name/text()[1]")
             if old_target.xpath("sum(in_use/text()) > 0"):
                 msg = "target is still in use"
