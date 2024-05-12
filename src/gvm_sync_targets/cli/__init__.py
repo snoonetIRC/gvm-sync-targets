@@ -24,6 +24,3 @@ def gvm_sync_targets(username: str, password: str) -> None:
         targets = gmp.get_targets()
         print(targets)
         print(type(targets))
-        for target in targets:
-            print(target)
-            print(type(target))
