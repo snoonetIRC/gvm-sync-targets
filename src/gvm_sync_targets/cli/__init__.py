@@ -4,6 +4,7 @@
 import click
 from gvm.connections import UnixSocketConnection
 from gvm.protocols.gmp import Gmp
+from gvm.transforms import EtreeCheckCommandTransform
 
 from gvm_sync_targets import __version__
 
@@ -19,7 +20,9 @@ from gvm_sync_targets import __version__
 @click.option("--username", show_envvar=True)
 @click.option("--password", show_envvar=True)
 def gvm_sync_targets(username: str, password: str) -> None:
-    with Gmp(UnixSocketConnection()) as gmp:
+    with Gmp(
+        UnixSocketConnection(), transform=EtreeCheckCommandTransform()
+    ) as gmp:
         gmp.authenticate(username, password)
         targets = gmp.get_targets()
         print(targets)

@@ -177,6 +177,9 @@ enable_error_code = [
     "truthy-iterable",
     "ignore-without-code",
 ]
+untyped_calls_exclude = [
+    "gvm.transforms",
+]
 
 [tool.pytest.ini_options]
 minversion = "6.0"
