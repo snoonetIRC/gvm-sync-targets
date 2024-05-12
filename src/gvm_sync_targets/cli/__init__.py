@@ -32,12 +32,12 @@ def gvm_sync_targets(username: str, password: str, hosts_file: TextIO) -> None:
         hosts = hosts_file.read().splitlines()
         gmp.authenticate(username, password)
         targets: "ElementBase" = gmp.get_targets()
-        target = targets.find("/get_targets_response/target[name='All Hosts']")
+        target = targets.find("target[name='All Hosts']")
 
         if target is None:
             # Create target
             new_target = gmp.create_target("All Hosts")
-        elif target.xpath("/in_use/text()") == ["1"]:
+        elif target.xpath("in_use/text()") == ["1"]:
             new_target = gmp.clone_target(target.attrib["id"])
         else:
             new_target = target
@@ -47,7 +47,7 @@ def gvm_sync_targets(username: str, password: str, hosts_file: TextIO) -> None:
 
         # Replace old target in tasks
         if target is not None and target is not new_target:
-            tasks = gmp.get_tasks().findall("/get_tasks_response/task")
+            tasks = gmp.get_tasks().findall("task")
             if tasks is None:
                 tasks = []
 
