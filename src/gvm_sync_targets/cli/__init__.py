@@ -1,6 +1,9 @@
+import logging
+
 # SPDX-FileCopyrightText: 2024-present linuxdaemon <linuxdaemon.irc@gmail.com>
 #
 # SPDX-License-Identifier: MIT
+from email.policy import default
 from typing import TYPE_CHECKING, TextIO, cast
 
 import click
@@ -25,8 +28,16 @@ if TYPE_CHECKING:
 @click.version_option(version=__version__, prog_name="gvm-sync-targets")
 @click.option("--username", show_envvar=True)
 @click.option("--password", show_envvar=True)
+@click.option(
+    "--debug", is_flag=True, default=False, help="Enable debug logging"
+)
 @click.argument("hosts_file", type=click.File())
-def gvm_sync_targets(username: str, password: str, hosts_file: TextIO) -> None:
+def gvm_sync_targets(
+    username: str, password: str, debug: bool, hosts_file: TextIO
+) -> None:
+    if debug:
+        logging.getLogger().setLevel("DEBUG")
+
     with Gmp(
         DebugConnection(UnixSocketConnection()),
         transform=EtreeCheckCommandTransform(),
