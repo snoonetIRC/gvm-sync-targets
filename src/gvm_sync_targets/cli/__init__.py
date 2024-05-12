@@ -21,8 +21,9 @@ from gvm_sync_targets import __version__
 def gvm_sync_targets(username: str, password: str) -> None:
     with Gmp(UnixSocketConnection()) as gmp:
         gmp.authenticate(username, password)
-        for target in gmp.get_targets():
+        targets = gmp.get_targets()
+        print(targets)
+        print(type(targets))
+        for target in targets:
             print(target)
             print(type(target))
-            for k in dir(target):
-                print(k, getattr(target, k))
