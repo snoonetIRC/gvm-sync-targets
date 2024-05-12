@@ -22,4 +22,7 @@ def gvm_sync_targets(username: str, password: str) -> None:
     with Gmp(UnixSocketConnection()) as gmp:
         gmp.authenticate(username, password)
         for target in gmp.get_targets():
-            print(target, type(target), vars(target))
+            print(target)
+            print(type(target))
+            for k in dir(target):
+                print(k, getattr(target, k))
