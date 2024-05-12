@@ -4,7 +4,7 @@
 from typing import TYPE_CHECKING, TextIO, cast
 
 import click
-from gvm.connections import UnixSocketConnection
+from gvm.connections import DebugConnection, UnixSocketConnection
 from gvm.protocols.gmp import Gmp
 from gvm.transforms import EtreeCheckCommandTransform
 
@@ -28,7 +28,8 @@ if TYPE_CHECKING:
 @click.argument("hosts_file", type=click.File())
 def gvm_sync_targets(username: str, password: str, hosts_file: TextIO) -> None:
     with Gmp(
-        UnixSocketConnection(), transform=EtreeCheckCommandTransform()
+        DebugConnection(UnixSocketConnection()),
+        transform=EtreeCheckCommandTransform(),
     ) as gmp:
         hosts = hosts_file.read().splitlines()
         gmp.authenticate(username, password)
