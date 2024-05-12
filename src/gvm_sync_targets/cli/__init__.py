@@ -40,43 +40,8 @@ def gvm_sync_targets(
     ) as gmp:
         hosts = hosts_file.read().splitlines()
         gmp.authenticate(username, password)
-        targets: Element = gmp.get_targets()
-        target: Optional[Element] = targets.find("target[name='All Hosts']")
-
-        if target is None:
-            # Create target
-            new_target = gmp.create_target("All Hosts")
-        elif target_in_use(target):
-            new_target = gmp.clone_target(to_str(target.attrib["id"]))
-        else:
-            new_target = target
-
-        new_target_id: str = to_str(new_target.attrib["id"])
-        # Set hosts
-        # gmp.modify_target(new_target.attrib['id'], hosts=hosts)
-
-        # Replace old target in tasks
-        if target is not None and target is not new_target:
-            old_target_id = to_str(target.attrib["id"])
-            task_ids = cast(
-                list[str],
-                cast(Element, gmp.get_tasks()).xpath(
-                    f"task[target/@id='{old_target_id}']/@id"
-                ),
-            )
-
-            for task_id in task_ids:
-                gmp.modify_task(task_id, target_id=new_target_id)
-
-            # Ensure old target is unused
-            old_target: Element = gmp.get_target(old_target_id)[0]
-            old_name = cast(list[str], old_target.xpath("name/text()"))[0]
-            if target_in_use(old_target):
-                msg = "target is still in use"
-                raise ValueError(msg)
-
-            # Delete old target
-            gmp.delete_target(old_target_id, ultimate=True)
-
-            # Rename new target
-            gmp.modify_target(new_target_id, name=old_name)
+        existing_hosts: Element = gmp.get_hosts(details=True)
+        to_add = hosts.copy()
+        for host in cast(list[Element], existing_hosts.xpath("host")):
+            print(host.attrib)
+            print(list(host))
