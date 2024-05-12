@@ -1,10 +1,9 @@
-import logging
-
 # SPDX-FileCopyrightText: 2024-present linuxdaemon <linuxdaemon.irc@gmail.com>
 #
 # SPDX-License-Identifier: MIT
-from email.policy import default
-from typing import TYPE_CHECKING, TextIO, cast
+
+import logging
+from typing import Optional, TextIO, cast
 
 import click
 from gvm.connections import DebugConnection, UnixSocketConnection
@@ -12,10 +11,7 @@ from gvm.protocols.gmp import Gmp
 from gvm.transforms import EtreeCheckCommandTransform
 
 from gvm_sync_targets import __version__
-from gvm_sync_targets.util import to_str
-
-if TYPE_CHECKING:
-    from lxml.etree import ElementBase
+from gvm_sync_targets.util import Element, target_in_use, to_str
 
 
 @click.group(
@@ -44,13 +40,13 @@ def gvm_sync_targets(
     ) as gmp:
         hosts = hosts_file.read().splitlines()
         gmp.authenticate(username, password)
-        targets: "ElementBase" = gmp.get_targets()
-        target = targets.find("target[name='All Hosts']")
+        targets: Element = gmp.get_targets()
+        target: Optional[Element] = targets.find("target[name='All Hosts']")
 
         if target is None:
             # Create target
             new_target = gmp.create_target("All Hosts")
-        elif target.xpath("sum(in_use/text()) > 0"):
+        elif target_in_use(target):
             new_target = gmp.clone_target(to_str(target.attrib["id"]))
         else:
             new_target = target
@@ -62,19 +58,20 @@ def gvm_sync_targets(
         # Replace old target in tasks
         if target is not None and target is not new_target:
             old_target_id = to_str(target.attrib["id"])
-            tasks = cast("ElementBase", gmp.get_tasks()).findall(
-                f"task[target/@id='{old_target_id}']"
+            task_ids = cast(
+                list[str],
+                cast(Element, gmp.get_tasks()).xpath(
+                    f"task[target/@id='{old_target_id}']/@id"
+                ),
             )
 
-            for task in tasks:
-                gmp.modify_task(
-                    to_str(task.attrib["id"]), target_id=new_target_id
-                )
+            for task_id in task_ids:
+                gmp.modify_task(task_id, target_id=new_target_id)
 
             # Ensure old target is unused
-            old_target: "ElementBase" = gmp.get_target(old_target_id)[0]
+            old_target: Element = gmp.get_target(old_target_id)[0]
             old_name = old_target.xpath("name/text()[1]")
-            if old_target.xpath("sum(in_use/text()) > 0"):
+            if target_in_use(old_target):
                 msg = "target is still in use"
                 raise ValueError(msg)
 

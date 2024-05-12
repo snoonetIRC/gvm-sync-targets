@@ -23,8 +23,10 @@ classifiers = [
     "Programming Language :: Python :: Implementation :: PyPy",
 ]
 dependencies = [
-  "click",
-  "python-gvm>=23.12.0",
+    "click>=8.1",
+    "python-gvm>=23.12.0",
+    "typing_extensions",
+    "lxml",
 ]
 
 [project.urls]
@@ -45,12 +47,7 @@ version-file = "src/gvm_sync_targets/_version.py"
 requires = ["hatch-containers"]
 
 [tool.hatch.envs.default]
-dependencies = [
-    "coverage[toml]>=6.5",
-    "pytest>=6.0",
-    "pre-commit",
-    "mypy>=1.8",
-]
+dependencies = ["coverage[toml]>=6.5", "pytest>=6.0", "pre-commit", "mypy>=1.8"]
 
 [tool.hatch.envs.default.scripts]
 test = "pytest"
@@ -177,38 +174,30 @@ enable_error_code = [
     "truthy-iterable",
     "ignore-without-code",
 ]
-untyped_calls_exclude = [
-    "gvm.transforms",
-]
+untyped_calls_exclude = ["gvm.transforms"]
 
 [tool.pytest.ini_options]
 minversion = "6.0"
 addopts = "--doctest-modules"
 testpaths = ["src", "tests"]
-filterwarnings = [
-    "error",
-    "ignore:defusedxml.lxml .*:DeprecationWarning:",
-]
+filterwarnings = ["error", "ignore:defusedxml.lxml .*:DeprecationWarning:"]
 
 [tool.coverage.run]
 source_pkgs = ["gvm_sync_targets", "tests"]
 branch = true
 parallel = true
 relative_files = true
-omit = [
-  "src/gvm_sync_targets/_version.py",
-]
+omit = ["src/gvm_sync_targets/_version.py"]
 
 [tool.coverage.paths]
-gvm_sync_targets = ["src/gvm_sync_targets", "*/gvm-sync-targets/src/gvm_sync_targets"]
+gvm_sync_targets = [
+    "src/gvm_sync_targets",
+    "*/gvm-sync-targets/src/gvm_sync_targets",
+]
 tests = ["tests", "*/gvm-sync-targets/tests"]
 
 [tool.coverage.report]
-exclude_lines = [
-  "no cov",
-  "if __name__ == .__main__.:",
-  "if TYPE_CHECKING:",
-]
+exclude_lines = ["no cov", "if __name__ == .__main__.:", "if TYPE_CHECKING:"]
 
 [tool.commitizen]
 name = "cz_conventional_commits"

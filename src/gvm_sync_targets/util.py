@@ -1,7 +1,21 @@
 # SPDX-FileCopyrightText: 2024-present linuxdaemon <linuxdaemon.irc@gmail.com>
 #
 # SPDX-License-Identifier: MIT
-from typing import Union
+
+from typing import TYPE_CHECKING, Union
+
+from typing_extensions import TypeAlias
+
+if TYPE_CHECKING:
+    from lxml.etree import _Element
+
+Element: TypeAlias = "_Element"
+
+__all__ = [
+    "to_str",
+    "target_in_use",
+    "Element",
+]
 
 
 def to_str(text: Union[str, bytes, bytearray, memoryview]) -> str:
@@ -30,3 +44,7 @@ def to_str(text: Union[str, bytes, bytearray, memoryview]) -> str:
         return to_str(text.tobytes())
 
     return text
+
+
+def target_in_use(target: Element) -> bool:
+    return bool(target.xpath("boolean(in_use[text()='1'])"))
