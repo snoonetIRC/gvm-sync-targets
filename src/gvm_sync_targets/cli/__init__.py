@@ -63,7 +63,7 @@ def gvm_sync_targets(
         if target is not None and target is not new_target:
             old_target_id = to_str(target.attrib["id"])
             tasks = cast("ElementBase", gmp.get_tasks()).findall(
-                f"task[target='{old_target_id}']"
+                f"task[target/@id='{old_target_id}']"
             )
 
             for task in tasks:
