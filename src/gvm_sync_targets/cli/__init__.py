@@ -36,7 +36,7 @@ def gvm_sync_targets(
     username: str, password: str, debug: bool, hosts_file: TextIO
 ) -> None:
     if debug:
-        logging.getLogger().setLevel("DEBUG")
+        logging.basicConfig(level="DEBUG", force=True)
 
     with Gmp(
         DebugConnection(UnixSocketConnection()),
