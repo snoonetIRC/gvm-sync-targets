@@ -181,15 +181,19 @@ enable_error_code = [
 [tool.pytest.ini_options]
 minversion = "6.0"
 addopts = "--doctest-modules"
-testpaths = ["polymatch", "tests"]
-filterwarnings = ["error"]
+testpaths = ["src", "tests"]
+filterwarnings = [
+    "error",
+    "ignore:defusedxml.lxml .*:DeprecationWarning:",
+]
 
 [tool.coverage.run]
 source_pkgs = ["gvm_sync_targets", "tests"]
 branch = true
 parallel = true
+relative_files = true
 omit = [
-  "src/gvm_sync_targets/__about__.py",
+  "src/gvm_sync_targets/_version.py",
 ]
 
 [tool.coverage.paths]
