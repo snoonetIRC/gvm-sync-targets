@@ -8,11 +8,13 @@ from typing import Type, cast
 from gvm.transforms import EtreeCheckCommandTransform
 
 from gvm_sync_targets.models.assets_response import GetAssetsResponse
+from gvm_sync_targets.models.auth_response import AuthenticateResponse
 from gvm_sync_targets.models.model import Model
 from gvm_sync_targets.util import Element
 
 _MODEL_MAP: Mapping[str, type[Model]] = {
     "get_assets_response": GetAssetsResponse,
+    "authenticate_response": AuthenticateResponse,
 }
 
 
