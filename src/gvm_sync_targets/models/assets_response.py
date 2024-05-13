@@ -9,6 +9,7 @@ from pydantic import PlainSerializer
 from pydantic_xml import attr, element, wrapped
 
 from gvm_sync_targets.models.model import Model
+from gvm_sync_targets.models.response import Response
 
 IntBoolean = Annotated[
     bool, PlainSerializer(lambda value: 1 if value else 0, return_type=int)
@@ -127,10 +128,7 @@ class Sort(Model, tag="sort"):
     field: SortField
 
 
-class GetAssetsResponse(Model, tag="get_assets_response"):
-    status: int = attr("status")
-    status_text: str = attr("status_text")
-
+class GetAssetsResponse(Response, tag="get_assets_response"):
     assets: list[Asset] = []
     filters: Filters
     sort: Sort

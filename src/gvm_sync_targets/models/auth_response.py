@@ -4,12 +4,9 @@
 
 from pydantic_xml import attr, element
 
-from gvm_sync_targets.models.model import Model
+from gvm_sync_targets.models.response import Response
 
 
-class AuthenticateResponse(Model, tag="authenticate_response"):
-    status: int = attr("status")
-    status_text: str = attr("status_text")
-
+class AuthenticateResponse(Response, tag="authenticate_response"):
     role: str = element()
     timezone: str = element()
