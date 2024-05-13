@@ -77,7 +77,6 @@ repos:
   rev: 7c0bc1591103b1f089aab9810fc2a201ccb0552b
 - hooks:
   - entry: hatch run python3 -m mypy
-    exclude: tests/.*
     id: mypy
     language: system
     name: mypy

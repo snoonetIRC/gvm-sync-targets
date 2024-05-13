@@ -47,11 +47,11 @@ def gvm_sync_targets(
         to_remove: list[str] = []
 
         for host in existing_hosts.assets:
-            ips = [
+            ips = {
                 identifier.value
                 for identifier in host.identifiers.identifiers
                 if identifier.name == "ip"
-            ]
+            }
 
             if len(ips) > 1:
                 raise ValueError(f"Multiple IPs?: {ips}")
