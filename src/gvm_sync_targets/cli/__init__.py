@@ -11,6 +11,8 @@ from gvm.protocols.gmp import Gmp
 from gvm.transforms import EtreeCheckCommandTransform
 
 from gvm_sync_targets import __version__
+from gvm_sync_targets.models import ModelTransform
+from gvm_sync_targets.models.assets_response import GetAssetsResponse
 from gvm_sync_targets.util import Element, target_in_use, to_str
 
 
@@ -36,12 +38,34 @@ def gvm_sync_targets(
 
     with Gmp(
         DebugConnection(UnixSocketConnection()),
-        transform=EtreeCheckCommandTransform(),
+        transform=ModelTransform(),
     ) as gmp:
         hosts = hosts_file.read().splitlines()
         gmp.authenticate(username, password)
-        existing_hosts: Element = gmp.get_hosts(details=True)
+        existing_hosts: GetAssetsResponse = gmp.get_hosts(details=True)
         to_add = hosts.copy()
-        for host in cast(list[Element], existing_hosts.xpath("host")):
-            print(host.attrib)
-            print(list(host))
+        to_remove: list[str] = []
+
+        for host in existing_hosts.assets:
+            ips = [
+                identifier.value
+                for identifier in host.identifiers.identifiers
+                if identifier.name == "ip"
+            ]
+
+            if len(ips) > 1:
+                raise ValueError(f"Multiple IPs?: {ips}")
+
+            for ip in ips:
+                if ip in to_add:
+                    to_add.remove(ip)
+                elif ip not in hosts:
+                    to_remove.append(host.uuid)
+
+        for ip in to_add:
+            gmp.create_host(ip)
+
+        for uuid in to_remove:
+            gmp.delete_host(uuid)
+
+    click.echo(f"Added {len(to_add)} hosts, removed {len(to_remove)}.")
