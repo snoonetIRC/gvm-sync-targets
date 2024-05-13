@@ -7,7 +7,10 @@ from typing import cast
 
 from gvm.transforms import EtreeCheckCommandTransform
 
-from gvm_sync_targets.models.assets_response import GetAssetsResponse
+from gvm_sync_targets.models.assets_response import (
+    DeleteAssetResponse,
+    GetAssetsResponse,
+)
 from gvm_sync_targets.models.auth_response import AuthenticateResponse
 from gvm_sync_targets.models.response import Response
 from gvm_sync_targets.util import Element
@@ -15,6 +18,7 @@ from gvm_sync_targets.util import Element
 _MODEL_MAP: Mapping[str, type[Response]] = {
     "get_assets_response": GetAssetsResponse,
     "authenticate_response": AuthenticateResponse,
+    "delete_asset_response": DeleteAssetResponse,
 }
 
 

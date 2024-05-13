@@ -134,3 +134,7 @@ class GetAssetsResponse(Response, tag="get_assets_response"):
     sort: Sort
     pagination: Pagination = element("assets")
     asset_count: AssetCount
+
+
+class DeleteAssetResponse(Response, tag="delete_asset_response"):
+    pass
