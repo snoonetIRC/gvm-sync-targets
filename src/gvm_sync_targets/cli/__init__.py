@@ -3,17 +3,16 @@
 # SPDX-License-Identifier: MIT
 
 import logging
-from typing import Optional, TextIO, cast
+from typing import TextIO
 
 import click
 from gvm.connections import DebugConnection, UnixSocketConnection
 from gvm.protocols.gmp import Gmp
-from gvm.transforms import EtreeCheckCommandTransform
 
 from gvm_sync_targets import __version__
 from gvm_sync_targets.models import ModelTransform
 from gvm_sync_targets.models.assets_response import GetAssetsResponse
-from gvm_sync_targets.util import Element, target_in_use, to_str
+from gvm_sync_targets.util import read_lines
 
 
 @click.group(
@@ -40,7 +39,7 @@ def gvm_sync_targets(
         DebugConnection(UnixSocketConnection()),
         transform=ModelTransform(),
     ) as gmp:
-        hosts = hosts_file.read().splitlines()
+        hosts = read_lines(hosts_file.read())
         gmp.authenticate(username, password)
         existing_hosts: GetAssetsResponse = gmp.get_hosts(details=True)
         to_add = hosts.copy()

@@ -12,39 +12,14 @@ if TYPE_CHECKING:
 Element: TypeAlias = "_Element"
 
 __all__ = [
-    "to_str",
-    "target_in_use",
     "Element",
+    "read_lines",
 ]
 
 
-def to_str(text: Union[str, bytes, bytearray, memoryview]) -> str:
-    """Convert bytes, bytearray, memoryview, or str to str.
-
-    Args:
-        text: Input value
-
-    Returns:
-        decoded output
-
-    Examples:
-        >>> to_str("aaa")
-        'aaa'
-        >>> to_str(b'bb')
-        'bb'
-        >>> to_str(memoryview(b'bb'))
-        'bb'
-        >>> to_str(bytearray(b'cc'))
-        'cc'
-    """
-    if isinstance(text, (bytes, bytearray)):
-        return text.decode()
-
-    if isinstance(text, memoryview):
-        return to_str(text.tobytes())
-
-    return text
-
-
-def target_in_use(target: Element) -> bool:
-    return bool(target.xpath("boolean(in_use[text()='1'])"))
+def read_lines(data: str, ignore_comments: bool = True) -> list[str]:
+    return [
+        line
+        for line in data.splitlines()
+        if not (ignore_comments and line.lstrip().startswith("#"))
+    ]
