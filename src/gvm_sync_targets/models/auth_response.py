@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: MIT
 
-from pydantic_xml import attr, element
+from pydantic_xml import element
 
 from gvm_sync_targets.models.response import Response
 

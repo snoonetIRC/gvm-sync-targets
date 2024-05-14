@@ -6,7 +6,7 @@ import datetime
 from typing import Annotated, Optional
 
 from pydantic import PlainSerializer
-from pydantic_xml import attr, element, wrapped
+from pydantic_xml import attr, element
 
 from gvm_sync_targets.models.model import Model
 from gvm_sync_targets.models.response import Response
