@@ -40,7 +40,7 @@ def gvm_sync_targets(
     ) as gmp:
         hosts = read_lines(hosts_file.read())
         gmp.authenticate(username, password)
-        to_add = set(hosts.copy())
+        to_add = hosts.copy()
         to_remove: list[str] = []
 
         for host in get_all_hosts(gmp, details=True):
@@ -56,10 +56,10 @@ def gvm_sync_targets(
             for ip in ips:
                 if ip in to_add:
                     to_add.remove(ip)
-                elif ip not in hosts:
+                else:
                     to_remove.append(host.uuid)
 
-        for ip in to_add:
+        for ip in set(to_add):
             gmp.create_host(ip)
 
         for uuid in set(to_remove):
