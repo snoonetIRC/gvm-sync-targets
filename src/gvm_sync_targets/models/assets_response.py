@@ -37,7 +37,7 @@ class Detail(Model, tag="detail"):
 
 class Host(Model, tag="host"):
     severity: Severity = element()
-    details: list[Detail] = element("detail")
+    details: list[Detail] = element("detail", default_factory=list)
 
 
 class Owner(Model, tag="owner"):
