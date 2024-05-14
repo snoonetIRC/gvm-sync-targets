@@ -138,3 +138,7 @@ class GetAssetsResponse(Response, tag="get_assets_response"):
 
 class DeleteAssetResponse(Response, tag="delete_asset_response"):
     pass
+
+
+class CreateAssetResponse(Response, tag="create_asset_response"):
+    uuid: str = attr("id")
