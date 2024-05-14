@@ -11,8 +11,7 @@ from gvm.protocols.gmp import Gmp
 
 from gvm_sync_targets import __version__
 from gvm_sync_targets.models import ModelTransform
-from gvm_sync_targets.models.assets_response import GetAssetsResponse
-from gvm_sync_targets.util import read_lines
+from gvm_sync_targets.util import get_all_hosts, read_lines
 
 
 @click.group(
@@ -41,11 +40,10 @@ def gvm_sync_targets(
     ) as gmp:
         hosts = read_lines(hosts_file.read())
         gmp.authenticate(username, password)
-        existing_hosts: GetAssetsResponse = gmp.get_hosts(details=True)
-        to_add = hosts.copy()
+        to_add = set(hosts.copy())
         to_remove: list[str] = []
 
-        for host in existing_hosts.assets:
+        for host in get_all_hosts(gmp, details=True):
             ips = {
                 identifier.value
                 for identifier in host.identifiers.identifiers
@@ -64,7 +62,7 @@ def gvm_sync_targets(
         for ip in to_add:
             gmp.create_host(ip)
 
-        for uuid in to_remove:
+        for uuid in set(to_remove):
             gmp.delete_host(uuid)
 
     click.echo(f"Added {len(to_add)} hosts, removed {len(to_remove)}.")
