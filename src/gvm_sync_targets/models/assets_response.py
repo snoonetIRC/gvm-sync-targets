@@ -17,7 +17,7 @@ IntBoolean = Annotated[
 
 
 class Severity(Model, tag="severity"):
-    value: float = element()
+    value: Optional[float] = element(default=None)
 
 
 class Source(Model, tag="source"):
