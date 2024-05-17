@@ -66,3 +66,6 @@ def gvm_sync_targets(
             gmp.delete_host(uuid)
 
     click.echo(f"Added {len(to_add)} hosts, removed {len(to_remove)}.")
+
+    for target in gmp.get_targets():
+        click.echo(target)
