@@ -52,6 +52,18 @@ class Permissions(Model, tag="permissions"):
     permissions: list[Permission] = element()
 
 
+class Tag(Model, tag="tag"):
+    uuid: str = attr("id")
+
+    name: str = element()
+    value: str = element()
+
+
+class UserTags(Model, tag="user_tags"):
+    count: int = element()
+    tags: list[Tag] = element()
+
+
 class OS(Model, tag="os"):
     uuid: str = attr("id")
 
@@ -86,6 +98,7 @@ class Asset(Model, tag="asset"):
     in_use: IntBoolean = element()
 
     permissions: Permissions = element()
+    user_tags: Optional[UserTags] = element(default=None)
     identifiers: Identifiers = element()
     type: str = element()
     host: Host = element("host")
