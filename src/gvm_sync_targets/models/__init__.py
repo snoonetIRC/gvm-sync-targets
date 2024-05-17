@@ -14,13 +14,23 @@ from gvm_sync_targets.models.assets_response import (
 )
 from gvm_sync_targets.models.auth_response import AuthenticateResponse
 from gvm_sync_targets.models.response import Response
+from gvm_sync_targets.models.targets_response import GetTargetsResponse
 from gvm_sync_targets.util import Element
+
+__all__ = [
+    "GetAssetsResponse",
+    "AuthenticateResponse",
+    "DeleteAssetResponse",
+    "CreateAssetResponse",
+    "GetTargetsResponse",
+]
 
 _MODEL_MAP: Mapping[str, type[Response]] = {
     "get_assets_response": GetAssetsResponse,
     "authenticate_response": AuthenticateResponse,
     "delete_asset_response": DeleteAssetResponse,
     "create_asset_response": CreateAssetResponse,
+    "get_targets_response": GetTargetsResponse,
 }
 
 

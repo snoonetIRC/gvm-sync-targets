@@ -65,6 +65,12 @@ setup-dev = ["setup-pre-commit"]
 
 pre-commit = "python3 -m pre_commit run {args:--all}"
 
+[tool.hatch.envs.types]
+dependencies = ["mypy>=1.8", "types-lxml"]
+
+[tool.hatch.envs.types.scripts]
+check = "mypy --non-interactive --install-types {args:src/gvm_sync_targets tests}"
+
 [tool.hatch.envs.testall]
 type = "container"
 dependencies = ["coverage[toml]>=6.5", "pytest>=6.0"]
@@ -170,7 +176,6 @@ extra_checks = true
 warn_unreachable = true
 warn_return_any = true
 warn_no_return = true
-incremental = false
 enable_error_code = [
     "redundant-self",
     "redundant-expr",
