@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2024-present linuxdaemon <linuxdaemon.irc@gmail.com>
+#
+# SPDX-License-Identifier: MIT
+
 from typing import Optional
 
 from pydantic_xml import attr, element

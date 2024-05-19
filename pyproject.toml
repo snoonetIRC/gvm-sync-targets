@@ -146,6 +146,9 @@ split-on-trailing-comma = false
 [tool.ruff.lint.pydocstyle]
 convention = "google"
 
+[tool.check-spdx-header]
+headers = ["2024-present linuxdaemon <linuxdaemon.irc@gmail.com>"]
+
 [tool.autoflake]
 remove-all-unused-imports = true
 in-place = true

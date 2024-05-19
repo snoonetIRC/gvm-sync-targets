@@ -78,7 +78,7 @@ repos:
 - hooks:
   - id: commitizen
   repo: https://github.com/commitizen-tools/commitizen
-  rev: faff6a61f4f53585a965addd06156eedf0027643  # frozen: v3.25.0
+  rev: c2bbc92202e9080adcdf8fa2e99c9e4406a1f684  # frozen: v3.26.0
 - hooks:
   - entry: hatch run types:check
     id: mypy
@@ -87,6 +87,11 @@ repos:
     types:
     - python
   repo: local
+- repo: https://github.com/TotallyNotRobots/check-spdx-header
+  rev: '2a52cf804e6dedd045e765185382d4f916ae2f3f'  # frozen: 0.1.0a2
+  hooks:
+    - id: fix-spdx-header
+
 minimum_pre_commit_version: 2.18.0
 default_install_hook_types:
 - pre-commit
