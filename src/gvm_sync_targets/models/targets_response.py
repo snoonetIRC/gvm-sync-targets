@@ -49,14 +49,14 @@ class PortList(Model, tag="port_list"):
     trash: IntBoolean = element()
 
 
-class Task(Resource, tag="task"):
+class TaskReference(Model, tag="task"):
     uuid: str = attr("id")
 
     name: str = element()
 
 
-class Tasks(Resource, tag="tasks"):
-    tasks: list[Task] = element(default_factory=list)
+class Tasks(Model, tag="tasks"):
+    tasks: list[TaskReference] = element(default_factory=list)
 
 
 class Target(Resource, tag="target"):
@@ -74,7 +74,7 @@ class Target(Resource, tag="target"):
     reverse_lookup_unify: IntBoolean = element()
     alive_tests: str = element()
     allow_simultaneous_ips: IntBoolean = element()
-    tasks: Tasks | None = None
+    tasks: Tasks | None = element(default=None)
 
 
 class GetTargetsResponse(Response, tag="get_targets_response"):
