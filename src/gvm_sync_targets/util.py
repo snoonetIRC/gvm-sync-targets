@@ -43,7 +43,7 @@ def get_all_hosts(
     item: GetAssetsResponse = first
     yield from item.assets
     starting_index = 1
-    while starting_index < item.asset_count.filtered:
+    while starting_index < item.count.filtered:
         keywords = item.filters.keywords.keywords
         filter_string = " ".join(
             f"{kw.column}{kw.relation}{kw.value}"
@@ -51,7 +51,7 @@ def get_all_hosts(
             if kw.column != "first"
         )
 
-        starting_index = item.pagination.start + item.asset_count.page
+        starting_index = item.pagination.start + item.count.page
 
         if filter_string:
             filter_string = f"first={starting_index} {filter_string}"

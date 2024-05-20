@@ -83,7 +83,7 @@ class GetTargetsResponse(Response, tag="get_targets_response"):
     filters: Filters
     sort: Sort
     pagination: Pagination = element("targets")
-    asset_count: Count = element("target_count")
+    count: Count = element("target_count")
 
 
 class DeleteTargetResponse(Response, tag="delete_target_response"):
@@ -92,3 +92,7 @@ class DeleteTargetResponse(Response, tag="delete_target_response"):
 
 class CreateTargetResponse(Response, tag="create_target_response"):
     uuid: str = attr("id")
+
+
+class ModifyTargetResponse(Response, tag="modify_target_response"):
+    pass

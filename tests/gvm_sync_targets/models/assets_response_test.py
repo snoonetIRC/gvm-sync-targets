@@ -985,4 +985,4 @@ def test_parse_model() -> None:
     model = GetAssetsResponse.from_xml(data)
     assert not model.model_extra
     assert model.assets[0].identifiers.identifiers[0].source is not None
-    assert model.asset_count.total == 7
+    assert model.count.total == 7

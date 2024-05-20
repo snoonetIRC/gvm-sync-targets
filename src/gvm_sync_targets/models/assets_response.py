@@ -87,7 +87,7 @@ class GetAssetsResponse(Response, tag="get_assets_response"):
     filters: Filters
     sort: Sort
     pagination: Pagination = element("assets")
-    asset_count: Count = element("asset_count")
+    count: Count = element("asset_count")
 
 
 class DeleteAssetResponse(Response, tag="delete_asset_response"):
@@ -96,3 +96,7 @@ class DeleteAssetResponse(Response, tag="delete_asset_response"):
 
 class CreateAssetResponse(Response, tag="create_asset_response"):
     uuid: str = attr("id")
+
+
+class ModifyAssetResponse(Response, tag="modify_asset_response"):
+    pass
