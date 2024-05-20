@@ -49,6 +49,16 @@ class PortList(Model, tag="port_list"):
     trash: IntBoolean = element()
 
 
+class Task(Resource, tag="task"):
+    uuid: str = attr("id")
+
+    name: str = element()
+
+
+class Tasks(Resource, tag="tasks"):
+    tasks: list[Task] = element()
+
+
 class Target(Resource, tag="target"):
     hosts: str = element()
     exclude_hosts: str | None = element(default=None)
@@ -64,6 +74,7 @@ class Target(Resource, tag="target"):
     reverse_lookup_unify: IntBoolean = element()
     alive_tests: str = element()
     allow_simultaneous_ips: IntBoolean = element()
+    tasks: Tasks = element()
 
 
 class GetTargetsResponse(Response, tag="get_targets_response"):
