@@ -3,7 +3,6 @@
 # SPDX-License-Identifier: MIT
 
 import datetime
-from typing import Optional
 
 from pydantic_xml import attr, element
 
@@ -64,7 +63,7 @@ class Resource(Model):
 
     owner: Owner
     name: str = element()
-    comment: Optional[str] = element(default=None)
+    comment: str | None = element(default=None)
     creation_time: datetime.datetime = element()
     modification_time: datetime.datetime = element()
     writable: IntBoolean = element()

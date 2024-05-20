@@ -3,7 +3,6 @@
 # SPDX-License-Identifier: MIT
 
 import datetime
-from typing import Optional
 
 from pydantic_xml import attr, element
 
@@ -19,16 +18,16 @@ from gvm_sync_targets.models.response import Response
 
 
 class Severity(Model, tag="severity"):
-    value: Optional[float] = element(default=None)
+    value: float | None = element(default=None)
 
 
 class Source(Model, tag="source"):
     uuid: str = attr("id")
 
     type: str = element()
-    data: Optional[str] = element(default=None)
+    data: str | None = element(default=None)
     deleted: IntBoolean = element(default=False)
-    name: Optional[str] = element(default=None)
+    name: str | None = element(default=None)
 
 
 class Detail(Model, tag="detail"):
@@ -68,8 +67,8 @@ class Identifier(Model, tag="identifier"):
     creation_time: datetime.datetime = element()
     modification_time: datetime.datetime = element()
 
-    source: Optional[Source] = None
-    os: Optional[OS] = None
+    source: Source | None = None
+    os: OS | None = None
 
 
 class Identifiers(Model, tag="identifiers"):
@@ -77,7 +76,7 @@ class Identifiers(Model, tag="identifiers"):
 
 
 class Asset(Resource, tag="asset"):
-    user_tags: Optional[UserTags] = element(default=None)
+    user_tags: UserTags | None = element(default=None)
     identifiers: Identifiers = element()
     type: str = element()
     host: Host = element("host")

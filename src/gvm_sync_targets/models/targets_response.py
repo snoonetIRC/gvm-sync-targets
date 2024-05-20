@@ -2,8 +2,6 @@
 #
 # SPDX-License-Identifier: MIT
 
-from typing import Optional
-
 from pydantic_xml import attr, element
 
 from gvm_sync_targets.models.model import IntBoolean, Model
@@ -19,7 +17,7 @@ from gvm_sync_targets.models.response import Response
 
 class Credential(Model):
     uuid: str = attr("id")
-    name: Optional[str] = element(default=None)
+    name: str | None = element(default=None)
 
     trash: IntBoolean = element(tag="trash")
 
@@ -53,7 +51,7 @@ class PortList(Model, tag="port_list"):
 
 class Target(Resource, tag="target"):
     hosts: str = element()
-    exclude_hosts: Optional[str] = element(default=None)
+    exclude_hosts: str | None = element(default=None)
     max_hosts: int = element()
     port_list: PortList = element()
     ssh_credential: SSHCredential = element()

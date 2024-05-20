@@ -3,10 +3,9 @@
 # SPDX-License-Identifier: MIT
 
 from collections.abc import Generator
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, TypeAlias
 
 from gvm.protocols.gmpv208.entities.hosts import HostsMixin
-from typing_extensions import TypeAlias
 
 from gvm_sync_targets.models.assets_response import Asset, GetAssetsResponse
 
@@ -31,9 +30,9 @@ def read_lines(data: str, ignore_comments: bool = True) -> list[str]:
 
 def get_all_hosts(
     proto: HostsMixin,
-    filter_string: Optional[str] = None,
-    filter_id: Optional[str] = None,
-    details: Optional[bool] = None,
+    filter_string: str | None = None,
+    filter_id: str | None = None,
+    details: bool | None = None,
 ) -> Generator[Asset, None, None]:
     first: GetAssetsResponse = proto.get_hosts(
         filter_string=filter_string,
