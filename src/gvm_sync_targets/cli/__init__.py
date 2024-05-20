@@ -10,8 +10,7 @@ from gvm.connections import DebugConnection, UnixSocketConnection
 from gvm.protocols.gmp import Gmp
 
 from gvm_sync_targets import __version__
-from gvm_sync_targets.models import ModelTransform
-from gvm_sync_targets.models.targets_response import GetTargetsResponse
+from gvm_sync_targets.models import GetTargetsResponse, ModelTransform
 from gvm_sync_targets.util import get_all_hosts, read_lines
 
 
@@ -70,5 +69,15 @@ def gvm_sync_targets(
         targets: GetTargetsResponse = gmp.get_targets()
         for target in targets.targets:
             click.echo(target)
+
+        resp: GetTargetsResponse = gmp.get_targets(
+            filter_string='name="All Hosts"', tasks=True
+        )
+
+        if resp.targets:
+            target = resp.targets[0]
+            click.echo(target)
+        else:
+            gmp.create_target("All Hosts", asset_hosts_filter="")
 
     click.echo(f"Added {len(to_add)} hosts, removed {len(to_remove)}.")
