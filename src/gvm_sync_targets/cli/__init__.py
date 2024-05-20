@@ -3,11 +3,12 @@
 # SPDX-License-Identifier: MIT
 
 import logging
-from typing import TYPE_CHECKING, TextIO
+from typing import TYPE_CHECKING, TextIO, cast
 
 import click
 from gvm.connections import DebugConnection, UnixSocketConnection
 from gvm.protocols.gmp import Gmp
+from gvm.protocols.gmpv225 import Gmp as Gmpv225
 
 from gvm_sync_targets import __version__
 from gvm_sync_targets.models import GetTargetsResponse, ModelTransform
@@ -41,6 +42,7 @@ def gvm_sync_targets(
         DebugConnection(UnixSocketConnection()),
         transform=ModelTransform(),
     ) as gmp:
+        gmp = cast(Gmpv225, gmp)
         hosts = read_lines(hosts_file.read())
         gmp.authenticate(username, password)
         to_add = hosts.copy()
@@ -78,12 +80,25 @@ def gvm_sync_targets(
         )
 
         if resp.targets:
+            target = resp.targets[0]
             new_target: CreateTargetResponse = gmp.create_target(
-                "All Hosts - temp", asset_hosts_filter=""
+                "All Hosts - temp",
+                asset_hosts_filter="first=1 limit=100",
+                comment=target.comment,
+                ssh_credential_id=target.ssh_credential.uuid,
+                ssh_credential_port=target.ssh_credential.port,
+                smb_credential_id=target.smb_credential.uuid,
+                snmp_credential_id=target.snmp_credential.uuid,
+                port_list_id=target.port_list.uuid,
+                esxi_credential_id=target.esxi_credential.uuid,
+                reverse_lookup_only=target.reverse_lookup_only,
+                reverse_lookup_unify=target.reverse_lookup_unify,
+                alive_test=target.alive_tests,
+                allow_simultaneous_ips=target.allow_simultaneous_ips,
             )
 
-            target = resp.targets[0]
             click.echo(target)
+            click.echo(new_target)
             task_ids = (
                 [task.uuid for task in target.tasks.tasks]
                 if target.tasks
@@ -96,6 +111,8 @@ def gvm_sync_targets(
             gmp.delete_target(target.uuid)
             gmp.modify_target(new_target.uuid, name="All Hosts")
         else:
-            gmp.create_target("All Hosts", asset_hosts_filter="")
+            gmp.create_target(
+                "All Hosts", asset_hosts_filter="first=1 limit=100"
+            )
 
     click.echo(f"Added {len(to_add)} hosts, removed {len(to_remove)}.")

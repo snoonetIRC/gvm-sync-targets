@@ -2,6 +2,7 @@
 #
 # SPDX-License-Identifier: MIT
 
+from gvm.protocols.gmpv208.entities.targets import AliveTest
 from pydantic_xml import attr, element
 
 from gvm_sync_targets.models.model import IntBoolean, Model
@@ -72,7 +73,7 @@ class Target(Resource, tag="target"):
 
     reverse_lookup_only: IntBoolean = element()
     reverse_lookup_unify: IntBoolean = element()
-    alive_tests: str = element()
+    alive_tests: AliveTest = element()
     allow_simultaneous_ips: IntBoolean = element()
     tasks: Tasks | None = element(default=None)
 
