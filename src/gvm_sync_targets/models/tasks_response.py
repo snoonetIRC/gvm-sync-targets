@@ -34,5 +34,5 @@ class CreateTaskResponse(Response, tag="create_task_response"):
     uuid: str = attr("id")
 
 
-class ModifyTaskResponse(Response, tag="modify_tag_response"):
+class ModifyTaskResponse(Response, tag="modify_task_response"):
     pass
