@@ -56,7 +56,7 @@ class Task(Resource, tag="task"):
 
 
 class Tasks(Resource, tag="tasks"):
-    tasks: list[Task] = element()
+    tasks: list[Task] = element(default_factory=list)
 
 
 class Target(Resource, tag="target"):
@@ -74,7 +74,7 @@ class Target(Resource, tag="target"):
     reverse_lookup_unify: IntBoolean = element()
     alive_tests: str = element()
     allow_simultaneous_ips: IntBoolean = element()
-    tasks: Tasks = element()
+    tasks: Tasks | None = None
 
 
 class GetTargetsResponse(Response, tag="get_targets_response"):

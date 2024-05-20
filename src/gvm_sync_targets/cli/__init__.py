@@ -77,6 +77,10 @@ def gvm_sync_targets(
         if resp.targets:
             target = resp.targets[0]
             click.echo(target)
+            if target.tasks:
+                target.tasks.tasks
+            else:
+                pass
         else:
             gmp.create_target("All Hosts", asset_hosts_filter="")
 
