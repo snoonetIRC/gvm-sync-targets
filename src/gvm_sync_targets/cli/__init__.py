@@ -11,6 +11,7 @@ from gvm.protocols.gmp import Gmp
 
 from gvm_sync_targets import __version__
 from gvm_sync_targets.models import GetTargetsResponse, ModelTransform
+from gvm_sync_targets.models.targets_response import CreateTargetResponse
 from gvm_sync_targets.util import get_all_hosts, read_lines
 
 
@@ -75,12 +76,22 @@ def gvm_sync_targets(
         )
 
         if resp.targets:
+            new_target: CreateTargetResponse = gmp.create_target(
+                "All Hosts - temp", asset_hosts_filter=""
+            )
+
             target = resp.targets[0]
             click.echo(target)
             if target.tasks:
-                target.tasks.tasks
+                task_ids = [task.uuid for task in target.tasks.tasks]
             else:
-                pass
+                task_ids = []
+
+            for task_id in task_ids:
+                gmp.modify_task(task_id, target_id=new_target.uuid)
+
+            gmp.delete_target(target.uuid)
+            gmp.modify_target(new_target.uuid, name="All Hosts")
         else:
             gmp.create_target("All Hosts", asset_hosts_filter="")
 
