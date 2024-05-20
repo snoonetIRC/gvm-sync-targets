@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: MIT
 
 import logging
-from typing import TextIO
+from typing import TYPE_CHECKING, TextIO
 
 import click
 from gvm.connections import DebugConnection, UnixSocketConnection
@@ -11,8 +11,10 @@ from gvm.protocols.gmp import Gmp
 
 from gvm_sync_targets import __version__
 from gvm_sync_targets.models import GetTargetsResponse, ModelTransform
-from gvm_sync_targets.models.targets_response import CreateTargetResponse
 from gvm_sync_targets.util import get_all_hosts, read_lines
+
+if TYPE_CHECKING:
+    from gvm_sync_targets.models.targets_response import CreateTargetResponse
 
 
 @click.group(
@@ -82,10 +84,11 @@ def gvm_sync_targets(
 
             target = resp.targets[0]
             click.echo(target)
-            if target.tasks:
-                task_ids = [task.uuid for task in target.tasks.tasks]
-            else:
-                task_ids = []
+            task_ids = (
+                [task.uuid for task in target.tasks.tasks]
+                if target.tasks
+                else []
+            )
 
             for task_id in task_ids:
                 gmp.modify_task(task_id, target_id=new_target.uuid)

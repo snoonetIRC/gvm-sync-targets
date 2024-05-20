@@ -113,13 +113,11 @@ extend-safe-fixes = [
     "D200",
 ]
 ignore = [
-    "TRY003", # TODO(aspen): Switch to custom exceptions
     "ANN101", # Due to be deprecated in ruff
     "ANN102", # Due to be deprecated in ruff
     "COM812", # Conflicts with formatter
     "ISC001", # Conflicts with formatter
     "EXE002", # pre-commit does it better, works with SMB shares
-    "FA100",
     "D",
 ]
 select = ["ALL"]
