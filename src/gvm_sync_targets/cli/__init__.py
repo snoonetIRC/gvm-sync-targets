@@ -11,6 +11,7 @@ from gvm.protocols.gmp import Gmp
 
 from gvm_sync_targets import __version__
 from gvm_sync_targets.models import ModelTransform
+from gvm_sync_targets.models.targets_response import GetTargetsResponse
 from gvm_sync_targets.util import get_all_hosts, read_lines
 
 
@@ -51,7 +52,8 @@ def gvm_sync_targets(
             }
 
             if len(ips) > 1:
-                raise ValueError(f"Multiple IPs?: {ips}")
+                msg = f"Multiple IPs?: {ips}"
+                raise ValueError(msg)
 
             for ip in ips:
                 if ip in to_add:
@@ -65,7 +67,8 @@ def gvm_sync_targets(
         for uuid in set(to_remove):
             gmp.delete_host(uuid)
 
-        for target in gmp.get_targets():
+        targets: GetTargetsResponse = gmp.get_targets()
+        for target in targets.targets:
             click.echo(target)
 
     click.echo(f"Added {len(to_add)} hosts, removed {len(to_remove)}.")
