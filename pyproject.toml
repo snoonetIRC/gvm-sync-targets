@@ -8,16 +8,13 @@ dynamic = ["version"]
 description = ''
 readme = "README.md"
 license = "MIT"
-requires-python = ">=3.9"
+requires-python = ">=3.12"
 authors = [{ name = "linuxdaemon", email = "linuxdaemon.irc@gmail.com" }]
 keywords = []
 classifiers = [
     "Development Status :: 3 - Alpha",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: Implementation :: CPython",
     "Programming Language :: Python :: Implementation :: PyPy",
@@ -76,7 +73,7 @@ type = "container"
 dependencies = ["coverage[toml]>=6.5", "pytest>=6.0"]
 
 [[tool.hatch.envs.testall.matrix]]
-python = ["3.9", "3.10", "3.11", "3.12"]
+python = ["3.12"]
 
 [tool.isort]
 profile = "black"
@@ -87,12 +84,12 @@ float_to_top = true
 
 [tool.black]
 line-length = 80
-target-version = ["py39"]
+target-version = ["py312"]
 include = '\.pyi?$'
 
 [tool.ruff]
 line-length = 80
-target-version = 'py39'
+target-version = 'py312'
 
 [tool.ruff.format]
 docstring-code-format = true
@@ -123,6 +120,7 @@ ignore = [
     "ISC001", # Conflicts with formatter
     "EXE002", # pre-commit does it better, works with SMB shares
     "FA100",
+    "D",
 ]
 select = ["ALL"]
 
@@ -160,7 +158,7 @@ transform-concats = true
 
 [tool.mypy]
 namespace_packages = true
-python_version = "3.9"
+python_version = "3.12"
 warn_unused_configs = true
 strict = true
 strict_optional = true

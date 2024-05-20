@@ -1,4 +1,4 @@
-FROM python:3.9 AS builder
+FROM python:3.12 AS builder
 
 RUN apt-get update && \
     apt-get install --no-install-recommends --no-install-suggests -y \
@@ -13,7 +13,7 @@ WORKDIR /source
 
 RUN rm -rf dist && /root/.local/bin/hatch build -t wheel
 
-FROM python:3.9-slim
+FROM python:3.12-slim
 
 WORKDIR /gvm-sync-targets
 
