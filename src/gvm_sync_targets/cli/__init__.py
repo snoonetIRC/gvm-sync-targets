@@ -83,7 +83,7 @@ def gvm_sync_targets(
             target = resp.targets[0]
             new_target: CreateTargetResponse = gmp.create_target(
                 "All Hosts - temp",
-                asset_hosts_filter="first=1 limit=100",
+                asset_hosts_filter="first=1 rows=100",
                 comment=target.comment,
                 ssh_credential_id=target.ssh_credential.uuid,
                 ssh_credential_port=target.ssh_credential.port,
@@ -112,7 +112,7 @@ def gvm_sync_targets(
             gmp.modify_target(new_target.uuid, name="All Hosts")
         else:
             gmp.create_target(
-                "All Hosts", asset_hosts_filter="first=1 limit=100"
+                "All Hosts", asset_hosts_filter="first=1 rows=100"
             )
 
     click.echo(f"Added {len(to_add)} hosts, removed {len(to_remove)}.")
