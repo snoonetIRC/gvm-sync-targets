@@ -181,10 +181,24 @@ enable_error_code = [
     "possibly-undefined",
     "truthy-bool",
     "truthy-iterable",
+    "unused-awaitable",
+    "explicit-override",
+    "mutable-override",
+    "unimported-reveal",
     "ignore-without-code",
+    "narrowed-type-not-subtype",
 ]
 untyped_calls_exclude = ["gvm.transforms"]
 follow_imports = "silent"
+strict_concatenate = true
+allow_redefinition = false
+allow_untyped_globals = false
+disallow_any_decorated = true
+disallow_any_explicit = true
+disallow_any_unimported = true
+disallow_incomplete_defs = true
+disallow_subclassing_any = true
+warn_incomplete_stub = true
 
 [tool.pydantic-mypy]
 init_forbid_extra = true

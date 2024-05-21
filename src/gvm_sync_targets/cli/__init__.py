@@ -44,9 +44,20 @@ def gvm_sync_targets(
     ) as gmp:
         gmp = cast(Gmpv225, gmp)
         hosts = read_lines(hosts_file.read())
+        host_map: dict[str, str | None] = {}
+        for entry in hosts:
+            if " " in entry:
+                k, v = entry.split(None, 1)
+            else:
+                k = entry
+                v = None
+
+            host_map[k] = v
+
         gmp.authenticate(username, password)
-        to_add = hosts.copy()
+        to_add = list(host_map.keys())
         to_remove: list[str] = []
+        to_update: list[tuple[str, str]] = []
 
         for host in get_all_hosts(gmp, details=True):
             ips = {
@@ -62,11 +73,16 @@ def gvm_sync_targets(
             for ip in ips:
                 if ip in to_add:
                     to_add.remove(ip)
+                    if host.comment != host_map.get(ip):
+                        to_update.append((host.uuid, ip))
                 else:
                     to_remove.append(host.uuid)
 
         for ip in set(to_add):
-            gmp.create_host(ip)
+            gmp.create_host(ip, comment=host_map.get(ip))
+
+        for ip, uuid in set(to_update):
+            gmp.modify_host(uuid, comment=host_map.get(ip))
 
         for uuid in set(to_remove):
             gmp.delete_host(uuid)

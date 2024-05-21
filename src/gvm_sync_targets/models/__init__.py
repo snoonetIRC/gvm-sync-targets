@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: MIT
 
 from collections.abc import Mapping
-from typing import cast
+from typing import cast, override
 
 from gvm.transforms import EtreeCheckCommandTransform
 
@@ -66,6 +66,7 @@ class ModelTransform(EtreeCheckCommandTransform):
     def __init__(self) -> None:
         super().__init__()  # type: ignore[no-untyped-call]
 
+    @override
     def __call__(self, data: str) -> Response:
         elem = cast(Element, super().__call__(data))
         return _MODEL_MAP[elem.tag].from_xml_tree(elem)  # type: ignore[arg-type] # etree.Element isn't a type but that's what this function expects
