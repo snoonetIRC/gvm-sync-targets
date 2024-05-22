@@ -81,7 +81,7 @@ def gvm_sync_targets(
         for ip in set(to_add):
             gmp.create_host(ip, comment=host_map.get(ip))
 
-        for ip, uuid in set(to_update):
+        for uuid, ip in set(to_update):
             gmp.modify_host(uuid, comment=host_map.get(ip))
 
         for uuid in set(to_remove):
